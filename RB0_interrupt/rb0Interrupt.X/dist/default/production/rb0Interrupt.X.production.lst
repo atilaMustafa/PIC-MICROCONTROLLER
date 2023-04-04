@@ -1,0 +1,485 @@
+
+
+Microchip MPLAB XC8 Assembler V2.36 build 20220127204148 
+                                                                                               Sat Jan 28 22:58:26 2023
+
+Microchip MPLAB XC8 C Compiler v2.36 (Free license) build 20220127204148 Og1 
+     1                           	processor	16F84A
+     2                           	pagewidth 120
+     3                           	opt	flic
+     4                           	psect	cinit,global,class=CODE,merge=1,delta=2
+     5                           	psect	bssBANK0,global,class=BANK0,space=1,delta=1,noexec
+     6                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1,noexec
+     7                           	psect	maintext,global,class=CODE,split=1,delta=2
+     8                           	psect	text1,local,class=CODE,merge=1,delta=2
+     9                           	psect	intentry,global,class=CODE,delta=2
+    10                           	psect	idloc,global,abs,ovrld,class=IDLOC,space=5,delta=2,noexec
+    11                           	psect	config,global,abs,ovrld,class=CONFIG,space=4,delta=2,noexec
+    12                           	dabs	1,0x4E,2
+    13  0000                     
+    14                           ; Version 2.40
+    15                           ; Generated 17/11/2021 GMT
+    16                           ; 
+    17                           ; Copyright © 2021, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    18                           ; All rights reserved.
+    19                           ; 
+    20                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    21                           ; 
+    22                           ; Redistribution and use in source and binary forms, with or without modification, are
+    23                           ; permitted provided that the following conditions are met:
+    24                           ; 
+    25                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    26                           ;        conditions and the following disclaimer.
+    27                           ; 
+    28                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    29                           ;        of conditions and the following disclaimer in the documentation and/or other
+    30                           ;        materials provided with the distribution. Publication is not required when
+    31                           ;        this file is used in an embedded application.
+    32                           ; 
+    33                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    34                           ;        software without specific prior written permission.
+    35                           ; 
+    36                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    37                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    38                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    39                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    40                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    41                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    42                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    43                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    44                           ; 
+    45                           ; 
+    46                           ; Code-generator required, PIC16F84A Definitions
+    47                           ; 
+    48                           ; SFR Addresses
+    49  0000                     	;# 
+    50  0001                     	;# 
+    51  0002                     	;# 
+    52  0003                     	;# 
+    53  0004                     	;# 
+    54  0005                     	;# 
+    55  0006                     	;# 
+    56  0008                     	;# 
+    57  0009                     	;# 
+    58  000A                     	;# 
+    59  000B                     	;# 
+    60  0081                     	;# 
+    61  0085                     	;# 
+    62  0086                     	;# 
+    63  0088                     	;# 
+    64  0089                     	;# 
+    65  0000                     	;# 
+    66  0001                     	;# 
+    67  0002                     	;# 
+    68  0003                     	;# 
+    69  0004                     	;# 
+    70  0005                     	;# 
+    71  0006                     	;# 
+    72  0008                     	;# 
+    73  0009                     	;# 
+    74  000A                     	;# 
+    75  000B                     	;# 
+    76  0081                     	;# 
+    77  0085                     	;# 
+    78  0086                     	;# 
+    79  0088                     	;# 
+    80  0089                     	;# 
+    81  0006                     _PORTB	set	6
+    82  0005                     _PORTA	set	5
+    83  005C                     _INTE	set	92
+    84  005F                     _GIE	set	95
+    85  0059                     _INTF	set	89
+    86  0085                     _TRISA	set	133
+    87  0086                     _TRISB	set	134
+    88                           
+    89                           	psect	cinit
+    90  000C                     start_initialization:	
+    91                           ; #config settings
+    92                           
+    93  000C                     __initialization:
+    94                           
+    95                           ; Clear objects allocated to BANK0
+    96  000C  1283               	bcf	3,5	;RP0=0, select bank0
+    97  000D  0194               	clrf	__pbssBANK0& (0+127)
+    98  000E  0195               	clrf	(__pbssBANK0+1)& (0+127)
+    99  000F                     end_of_initialization:	
+   100                           ;End of C runtime variable initialization code
+   101                           
+   102  000F                     __end_of__initialization:
+   103  000F  0183               	clrf	3
+   104  0010  283C               	ljmp	_main	;jump to C main() function
+   105                           
+   106                           	psect	bssBANK0
+   107  0014                     __pbssBANK0:
+   108  0014                     _i:
+   109  0014                     	ds	2
+   110                           
+   111                           	psect	cstackBANK0
+   112  000C                     __pcstackBANK0:
+   113  000C                     ?_KESME:
+   114  000C                     ??_KESME:	
+   115                           ; 1 bytes @ 0x0
+   116                           
+   117  000C                     ?_main:	
+   118                           ; 1 bytes @ 0x0
+   119                           
+   120                           
+   121                           ; 1 bytes @ 0x0
+   122  000C                     	ds	5
+   123  0011                     ??_main:
+   124                           
+   125                           ; 1 bytes @ 0x5
+   126  0011                     	ds	3
+   127                           
+   128                           	psect	maintext
+   129  003C                     __pmaintext:	
+   130 ;;
+   131 ;;Main: autosize = 0, tempsize = 3, incstack = 0, save=0
+   132 ;;
+   133 ;; *************** function _main *****************
+   134 ;; Defined at:
+   135 ;;		line 33 in file "rb0MainC.c"
+   136 ;; Parameters:    Size  Location     Type
+   137 ;;		None
+   138 ;; Auto vars:     Size  Location     Type
+   139 ;;		None
+   140 ;; Return value:  Size  Location     Type
+   141 ;;                  1    wreg      void 
+   142 ;; Registers used:
+   143 ;;		wreg, status,2
+   144 ;; Tracked objects:
+   145 ;;		On entry : B00/0
+   146 ;;		On exit  : 0/0
+   147 ;;		Unchanged: 0/0
+   148 ;; Data sizes:     COMMON   BANK0
+   149 ;;      Params:         0       0
+   150 ;;      Locals:         0       0
+   151 ;;      Temps:          0       3
+   152 ;;      Totals:         0       3
+   153 ;;Total ram usage:        3 bytes
+   154 ;; Hardware stack levels required when called: 1
+   155 ;; This function calls:
+   156 ;;		Nothing
+   157 ;; This function is called by:
+   158 ;;		Startup code after reset
+   159 ;; This function uses a non-reentrant model
+   160 ;;
+   161                           
+   162  003C                     _main:	
+   163                           ;psect for function _main
+   164                           
+   165  003C                     l656:	
+   166                           ;incstack = 0
+   167                           ; Regs used in _main: [wreg+status,2]
+   168                           
+   169                           
+   170                           ;rb0MainC.c: 34: }
+   171  003C  178B               	bsf	11,7	;volatile
+   172  003D  160B               	bsf	11,4	;volatile
+   173  003E                     l658:
+   174  003E  3001               	movlw	1
+   175  003F  1683               	bsf	3,5	;RP0=1, select bank1
+   176  0040  0086               	movwf	6	;volatile
+   177  0041                     l660:
+   178  0041  0185               	clrf	5	;volatile
+   179  0042                     l662:
+   180  0042  1283               	bcf	3,5	;RP0=0, select bank0
+   181  0043  0185               	clrf	5	;volatile
+   182  0044                     l29:
+   183  0044  307E               	movlw	126
+   184  0045  1283               	bcf	3,5	;RP0=0, select bank0
+   185  0046  0086               	movwf	6	;volatile
+   186  0047  3006               	movlw	6
+   187  0048  0093               	movwf	??_main+2
+   188  0049  3013               	movlw	19
+   189  004A  0092               	movwf	??_main+1
+   190  004B  30AD               	movlw	173
+   191  004C  0091               	movwf	??_main
+   192  004D                     u37:
+   193  004D  0B91               	decfsz	??_main,f
+   194  004E  284D               	goto	u37
+   195  004F  0B92               	decfsz	??_main+1,f
+   196  0050  284D               	goto	u37
+   197  0051  0B93               	decfsz	??_main+2,f
+   198  0052  284D               	goto	u37
+   199  0053  2854               	nop2
+   200  0054                     l664:
+   201  0054  1283               	bcf	3,5	;RP0=0, select bank0
+   202  0055  0186               	clrf	6	;volatile
+   203  0056                     l666:
+   204  0056  300B               	movlw	11
+   205  0057  0093               	movwf	??_main+2
+   206  0058  3026               	movlw	38
+   207  0059  0092               	movwf	??_main+1
+   208  005A  305D               	movlw	93
+   209  005B  0091               	movwf	??_main
+   210  005C                     u47:
+   211  005C  0B91               	decfsz	??_main,f
+   212  005D  285C               	goto	u47
+   213  005E  0B92               	decfsz	??_main+1,f
+   214  005F  285C               	goto	u47
+   215  0060  0B93               	decfsz	??_main+2,f
+   216  0061  285C               	goto	u47
+   217  0062  2863               	nop2
+   218  0063  2844               	goto	l29
+   219  0064  280B               	ljmp	start
+   220  0065                     __end_of_main:
+   221                           
+   222                           	psect	text1
+   223  0011                     __ptext1:	
+   224 ;; *************** function _KESME *****************
+   225 ;; Defined at:
+   226 ;;		line 17 in file "rb0MainC.c"
+   227 ;; Parameters:    Size  Location     Type
+   228 ;;		None
+   229 ;; Auto vars:     Size  Location     Type
+   230 ;;		None
+   231 ;; Return value:  Size  Location     Type
+   232 ;;                  1    wreg      void 
+   233 ;; Registers used:
+   234 ;;		wreg, status,2
+   235 ;; Tracked objects:
+   236 ;;		On entry : 0/0
+   237 ;;		On exit  : 0/0
+   238 ;;		Unchanged: 0/0
+   239 ;; Data sizes:     COMMON   BANK0
+   240 ;;      Params:         0       0
+   241 ;;      Locals:         0       0
+   242 ;;      Temps:          0       5
+   243 ;;      Totals:         0       5
+   244 ;;Total ram usage:        5 bytes
+   245 ;; Hardware stack levels used: 1
+   246 ;; This function calls:
+   247 ;;		Nothing
+   248 ;; This function is called by:
+   249 ;;		Interrupt level 1
+   250 ;; This function uses a non-reentrant model
+   251 ;;
+   252                           
+   253  0011                     _KESME:	
+   254                           ;psect for function _KESME
+   255                           
+   256  0011                     i1l646:
+   257                           
+   258                           ;rb0MainC.c: 20:     INTE=1;
+   259  0011  1C8B               	btfss	11,1	;volatile
+   260  0012  2814               	goto	u2_21
+   261  0013  2815               	goto	u2_20
+   262  0014                     u2_21:
+   263  0014  2833               	goto	i1l654
+   264  0015                     u2_20:
+   265  0015                     i1l648:
+   266                           
+   267                           ;rb0MainC.c: 21:     TRISB=1;;rb0MainC.c: 22:     TRISA=0;
+   268  0015  3001               	movlw	1
+   269  0016  0085               	movwf	5	;volatile
+   270                           
+   271                           ;rb0MainC.c: 23:     PORTA=0;
+   272  0017  3006               	movlw	6
+   273  0018  008E               	movwf	??_KESME+2
+   274  0019  3013               	movlw	19
+   275  001A  008D               	movwf	??_KESME+1
+   276  001B  30AD               	movlw	173
+   277  001C  008C               	movwf	??_KESME
+   278  001D                     u5_27:
+   279  001D  0B8C               	decfsz	??_KESME,f
+   280  001E  281D               	goto	u5_27
+   281  001F  0B8D               	decfsz	??_KESME+1,f
+   282  0020  281D               	goto	u5_27
+   283  0021  0B8E               	decfsz	??_KESME+2,f
+   284  0022  281D               	goto	u5_27
+   285  0023  2824               	nop2
+   286  0024                     i1l650:
+   287                           
+   288                           ;rb0MainC.c: 24:     while(1)
+   289  0024  1283               	bcf	3,5	;RP0=0, select bank0
+   290  0025  0185               	clrf	5	;volatile
+   291  0026                     i1l652:
+   292                           
+   293                           ;rb0MainC.c: 25:     {
+   294  0026  3006               	movlw	6
+   295  0027  008E               	movwf	??_KESME+2
+   296  0028  3013               	movlw	19
+   297  0029  008D               	movwf	??_KESME+1
+   298  002A  30AD               	movlw	173
+   299  002B  008C               	movwf	??_KESME
+   300  002C                     u6_27:
+   301  002C  0B8C               	decfsz	??_KESME,f
+   302  002D  282C               	goto	u6_27
+   303  002E  0B8D               	decfsz	??_KESME+1,f
+   304  002F  282C               	goto	u6_27
+   305  0030  0B8E               	decfsz	??_KESME+2,f
+   306  0031  282C               	goto	u6_27
+   307  0032  2833               	nop2
+   308  0033                     i1l654:
+   309                           
+   310                           ;rb0MainC.c: 28:         PORTB=0b00000000;
+   311  0033  108B               	bcf	11,1	;volatile
+   312  0034                     i1l22:
+   313  0034  1283               	bcf	3,5	;RP0=0, select bank0
+   314  0035  0810               	movf	??_KESME+4,w
+   315  0036  008A               	movwf	10
+   316  0037  0E0F               	swapf	??_KESME+3,w
+   317  0038  0083               	movwf	3
+   318  0039  0ECE               	swapf	btemp,f
+   319  003A  0E4E               	swapf	btemp,w
+   320  003B  0009               	retfie
+   321  003C                     __end_of_KESME:
+   322  004E                     btemp	set	78	;btemp
+   323  004E                     wtemp0	set	78
+   324                           
+   325                           	psect	intentry
+   326  0004                     __pintentry:	
+   327                           ;incstack = 0
+   328                           ; Regs used in _KESME: [wreg+status,2]
+   329                           
+   330  0004                     interrupt_function:
+   331  004E                     saved_w	set	btemp
+   332  0004  00CE               	movwf	btemp
+   333  0005  0E03               	swapf	3,w
+   334  0006  1283               	bcf	3,5	;RP0=0, select bank0
+   335  0007  008F               	movwf	??_KESME+3
+   336  0008  080A               	movf	10,w
+   337  0009  0090               	movwf	??_KESME+4
+   338  000A  2811               	ljmp	_KESME
+   339                           
+   340                           	psect	idloc
+   341                           
+   342                           ;Config register IDLOC0 @ 0x2000
+   343                           ;	unspecified, using default values
+   344  2000                     	org	8192
+   345  2000  3FFF               	dw	16383
+   346                           
+   347                           ;Config register IDLOC1 @ 0x2001
+   348                           ;	unspecified, using default values
+   349  2001                     	org	8193
+   350  2001  3FFF               	dw	16383
+   351                           
+   352                           ;Config register IDLOC2 @ 0x2002
+   353                           ;	unspecified, using default values
+   354  2002                     	org	8194
+   355  2002  3FFF               	dw	16383
+   356                           
+   357                           ;Config register IDLOC3 @ 0x2003
+   358                           ;	unspecified, using default values
+   359  2003                     	org	8195
+   360  2003  3FFF               	dw	16383
+   361                           
+   362                           	psect	config
+   363                           
+   364                           ;Config register CONFIG @ 0x2007
+   365                           ;	Oscillator Selection bits
+   366                           ;	FOSC = XT, XT oscillator
+   367                           ;	Watchdog Timer
+   368                           ;	WDTE = ON, WDT enabled
+   369                           ;	Power-up Timer Enable bit
+   370                           ;	PWRTE = OFF, Power-up Timer is disabled
+   371                           ;	Code Protection bit
+   372                           ;	CP = OFF, Code protection disabled
+   373  2007                     	org	8199
+   374  2007  3FFD               	dw	16381
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         2
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMMON            0      0       0
+    BANK0            66      8      10
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMMON
+
+    None.
+
+Critical Paths under _KESME in COMMON
+
+    None.
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _KESME in BANK0
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 3     3      0       0
+                                              5 BANK0      3     3      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 0
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (1) _KESME                                                5     5      0       0
+                                              0 BANK0      5     5      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 1
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+
+ _KESME (ROOT)
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BITCOMMON            0      0       0       0        0.0%
+EEDATA              40      0       0       0        0.0%
+NULL                 0      0       0       0        0.0%
+CODE                 0      0       0       0        0.0%
+BITSFR0              0      0       0       1        0.0%
+SFR0                 0      0       0       1        0.0%
+COMMON               0      0       0       1        0.0%
+BITSFR1              0      0       0       2        0.0%
+SFR1                 0      0       0       2        0.0%
+STACK                0      0       0       2        0.0%
+BANK0               42      8       A       3       15.2%
+ABS                  0      0       A       4        0.0%
+BITBANK0            42      0       0       5        0.0%
+DATA                 0      0       A       6        0.0%
+
+
+Microchip Technology PIC Macro Assembler V2.36 build 20220127204148 
+Symbol Table                                                                                   Sat Jan 28 22:58:26 2023
+
+                      _i 0014                       l29 0044                       u37 004D  
+                     u47 005C                      l660 0041                      l662 0042  
+                    l664 0054                      l656 003C                      l666 0056  
+                    l658 003E                      _GIE 005F                     _INTE 005C  
+                   i1l22 0034                     _INTF 0059                     u2_20 0015  
+                   u2_21 0014                     u5_27 001D                     u6_27 002C  
+                   _main 003C                     btemp 004E                     start 000B  
+                  ?_main 000C                    _KESME 0011                    i1l650 0024  
+                  i1l652 0026                    i1l654 0033                    i1l646 0011  
+                  i1l648 0015                    _PORTA 0005                    _PORTB 0006  
+                  _TRISA 0085                    _TRISB 0086                    pclath 000A  
+                  status 0003                    wtemp0 004E          __initialization 000C  
+           __end_of_main 0065                   ??_main 0011                   ?_KESME 000C  
+                 saved_w 004E  __end_of__initialization 000F            __end_of_KESME 003C  
+                ??_KESME 000C               __pbssBANK0 0014               __pmaintext 003C  
+             __pintentry 0004                  __ptext1 0011     end_of_initialization 000F  
+    start_initialization 000C                ___latbits 0000            __pcstackBANK0 000C  
+      interrupt_function 0004                 intlevel1 0000  
