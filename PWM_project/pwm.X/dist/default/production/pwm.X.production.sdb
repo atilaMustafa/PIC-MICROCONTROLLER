@@ -1,0 +1,36 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F877A ]
+[d frameptr 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"22 C:\Users\atila\Desktop\Mplab_projects\PWM_project\pwm.X\pwm_project.c
+[v _main main `(v  1 e 1 0 ]
+"893 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
+[v _CCPR1L CCPR1L `VEuc  1 e 1 @21 ]
+"1438
+[v _TRISC TRISC `VEuc  1 e 1 @135 ]
+"1817
+[v _PR2 PR2 `VEuc  1 e 1 @146 ]
+"2451
+[v _CCP1M2 CCP1M2 `VEb  1 e 0 @186 ]
+"2454
+[v _CCP1M3 CCP1M3 `VEb  1 e 0 @187 ]
+"2877
+[v _T2CKPS0 T2CKPS0 `VEb  1 e 0 @144 ]
+"2880
+[v _T2CKPS1 T2CKPS1 `VEb  1 e 0 @145 ]
+"2907
+[v _TMR2ON TMR2ON `VEb  1 e 0 @146 ]
+"22 C:\Users\atila\Desktop\Mplab_projects\PWM_project\pwm.X\pwm_project.c
+[v _main main `(v  1 e 1 0 ]
+{
+"33
+} 0
